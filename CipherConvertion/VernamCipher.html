@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <title>BookCipher</title>
+    <link rel="stylesheet" href="../style/style.css">
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+</head>
+ 
+<body>
+	<h1>VernamCipher</h1>
+	<form>
+		<input type="text" id="test-input1" placeholder="Message"/><br>
+		<input type="text" id="test-input2" placeholder="Key"/><br>
+		<button id="submit-button1" type="button" pys-onClick="encrypt1">Encrypt</button><br><br>
+		<textarea id="test-output1"></textarea><br>
+		<button id="submit-button2" type="button" pys-onClick="decrypt1">Decrypt</button><br>
+		<textarea id="test-output2"></textarea>
+		<p>Instructions:<br>
+			1.Enter your plaintext in the message box.<br>
+			2.Enter string in the key box.</p>
+	</form>
+
+ 
+<py-script>
+
+# Importing required classes
+# Method 1
+# Returning encrypted text
+
+
+def stringEncryption(text, key):
+	# Initializing cipherText
+	cipherText = ""
+
+	# Initialize cipher array of key length
+	# which stores the sum of corresponding no.'s
+	# of plainText and key.
+	cipher = []
+	for i in range(len(key)):
+		cipher.append(ord(text[i]) - ord('A') + ord(key[i])-ord('A'))
+
+	# If the sum is greater than 25
+	# subtract 26 from it
+	# and store that resulting value
+	for i in range(len(key)):
+		if cipher[i] > 25:
+			cipher[i] = cipher[i] - 26
+
+	# Converting the no.'s into integers
+	# Convert these integers to corresponding
+	# characters and add them up to cipherText
+
+	for i in range(len(key)):
+		x = cipher[i] + ord('A')
+		cipherText += chr(x)
+
+	# Returning the cipherText
+	return cipherText
+
+
+# Method 2
+def stringDecryption(s, key):
+
+	plainText = ""
+
+
+	plain = []
+
+
+	for i in range(len(key)):
+		plain.append(ord(s[i]) - ord('A') - (ord(key[i]) - ord('A')))
+
+	for i in range(len(key)):
+		if (plain[i] < 0):
+			plain[i] = plain[i] + 26
+
+
+	for i in range(len(key)):
+		x = plain[i] + ord('A')
+		plainText += chr(x)
+
+	return plainText
+
+
+def encrypt1(*args, **kwargs):
+    plainText = Element('test-input1').element.value #"Hello"
+
+    key = Element('test-input2').element.value #"MONEY"
+
+    encryptedText = stringEncryption(plainText.upper(), key.upper())
+
+    print("Cipher Text - " + encryptedText)
+
+    Element('test-output1').element.innerText = "Cipher Text: " + encryptedText 
+	
+
+    print("Message - " + stringDecryption(encryptedText, key.upper()))
+
+def decrypt1(*args, **kwargs):
+    plainText = Element('test-input1').element.value #"Hello"
+
+    key = Element('test-input2').element.value #"MONEY"
+
+    decryptedText = stringDecryption(plainText.upper(), key.upper())
+
+    Element('test-output2').element.innerText = "Plaintext: " + decryptedText 
+	
+
+</py-script>
+ 
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <title>Affine Cipher</title>
+    <link rel="stylesheet" href="../style/style.css">
+    <!-- <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css"> -->
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+</head>
+ 
+<body>
+    <h1>Affine Cipher</h1>
+    <form>
+        <input type="text" id="test-input1" placeholder="Message"/><br>
+        <input type="text" id="test-input2" placeholder="key1"/><br>
+        <input type="text" id="test-input3" placeholder="key2"/><br>
+        <button id="submit-button1" type="button" pys-onClick="encrypt1">Encrypt</button><br>
+        <textarea id="test-output1"></textarea><br>
+        <button id="submit-button2" type="button" pys-onClick="decrypt1">Decrypt</button><br>
+        <textarea id="test-output2"></textarea>
+        <p>Instructions:<br>
+        1.Enter the keyword/message.
+        <br>2.Assign the key values which should be co-prime in nature.</p>
+    </form>
+ 
+<py-script>
+ 
+    def find_inverse(key, m):
+        for i in range(m):
+            if (i * key) % m == 1:
+                return i
+        return -1
+    
+    def encrypt(plaintext, a, b):
+        ciphertext = ""
+    
+        for char in plaintext:
+            ascii_code = ord(char)
+    
+            if char.isalpha():
+                letter_index = ascii_code - ord('A') if char.isupper() else ascii_code - ord('a')
+    
+                new_letter_index = (a * letter_index + b) % 26
+    
+                new_ascii_code = new_letter_index + ord('A') if char.isupper() else new_letter_index + ord('a')
+    
+                ciphertext += chr(new_ascii_code)
+    
+            else:
+                ciphertext += char
+    
+        return ciphertext
+    
+    def decrypt(ciphertext, a, b):
+        plaintext = ""
+    
+        m = 26
+        inverse_a = find_inverse(a, m)
+    
+        if inverse_a == -1:
+            return "Invalid key: a and m must be coprime."
+    
+        for char in ciphertext:
+            ascii_code = ord(char)
+    
+            if char.isalpha():
+                letter_index = ascii_code - ord('A') if char.isupper() else ascii_code - ord('a')
+    
+                new_letter_index = (inverse_a * (letter_index - b)) % 26
+    
+                new_ascii_code = new_letter_index + ord('A') if char.isupper() else new_letter_index + ord('a')
+    
+                plaintext += chr(new_ascii_code)
+    
+            else:
+                plaintext += char
+    
+        return plaintext
+    
+    def encrypt1(*args, **kwargs):
+        plaintext = Element('test-input1').element.value #"HELLO WORLD"
+        a = int(Element('test-input2').element.value) #5
+        b = int(Element('test-input3').element.value) #8
+        
+        print("Plaintext:", plaintext)
+        ciphertext = encrypt(plaintext, a, b)
+        print("Ciphertext:", ciphertext)
+        decrypted_plaintext = decrypt(ciphertext, a, b)
+        print("Decrypted plaintext:", decrypted_plaintext)
+        Element('test-output1').element.innerText = "CipherText: " + ciphertext 
+        #+ "\n" + "Decrypted plaintext: " + decrypted_plaintext
+    
+    #Element('test-input1').element.value #
+    def decrypt1(*args, **kwargs):
+        plaintext = Element('test-input1').element.value #"HELLO WORLD"
+        a = int(Element('test-input2').element.value) #5
+        b = int(Element('test-input3').element.value) #8
+        
+        print("Plaintext:", plaintext)
+        ciphertext = encrypt(plaintext, a, b)
+        print("Ciphertext:", ciphertext)
+        decrypted_plaintext = decrypt(ciphertext, a, b)
+        print("Decrypted plaintext:", decrypted_plaintext)
+        Element('test-output2').element.innerText = "Plaintext: " + decrypted_plaintext 
+</py-script>
+ 
+</body>
+</html>

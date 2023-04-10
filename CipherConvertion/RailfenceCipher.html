@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <title>Railfence Cipher</title>
+    <link rel="stylesheet" href="../style/style.css">
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+</head>
+ 
+<body>
+    <h1>Railfence Cipher</h1>
+    <form>
+        <input type="text" id="test-input1" placeholder="Message"/><br>
+        <input type="text" id="test-input2" placeholder="Key"/><br>
+        <button id="submit-button1" type="button" pys-onClick="encrypt1">Encrypt</button><br><br>
+        <textarea id="test-output1"></textarea><br>
+        <button id="submit-button2" type="button" pys-onClick="decrypt1">Decrypt</button><br>
+        <textarea id="test-output2"></textarea>
+        <p>Instructions:<br>
+            1.Enter your plaintext.<br>
+            2.Choose a number of "rails" or rows. This should be an integer greater than 1.Enter it in key box.<br>
+            For example, let's say we want to encrypt the message "HELLO WORLD" using the Rail Fence Cipher with three rails.
+             We would write out the message like this:<br>
+
+            H . . . O . . . R . .<br>
+            . E . L . W . L . D .<br>
+            . . L . . . O . . . .<br>
+            
+            Then we would read the message back by starting at the top left and moving diagonally down to the right, then up to the next rail and so on:</p>
+    </form>
+ 
+<py-script>
+    
+    def encryptRailFence(text, key):
+    
+        rail = [['\n' for i in range(len(text))]
+                    for j in range(key)]
+        
+        dir_down = False
+        row, col = 0, 0
+        
+        for i in range(len(text)):
+            
+            if (row == 0) or (row == key - 1):
+                dir_down = not dir_down
+            
+            rail[row][col] = text[i]
+            col += 1
+            
+            if dir_down:
+                row += 1
+            else:
+                row -= 1
+        result = []
+        for i in range(key):
+            for j in range(len(text)):
+                if rail[i][j] != '\n':
+                    result.append(rail[i][j])
+        return("" . join(result))
+        
+    def decryptRailFence(cipher, key):
+    
+        rail = [['\n' for i in range(len(cipher))]
+                    for j in range(key)]
+        
+        dir_down = None
+        row, col = 0, 0
+        
+        for i in range(len(cipher)):
+            if row == 0:
+                dir_down = True
+            if row == key - 1:
+                dir_down = False
+            
+            rail[row][col] = '*'
+            col += 1
+            
+            if dir_down:
+                row += 1
+            else:
+                row -= 1
+                
+        index = 0
+        for i in range(key):
+            for j in range(len(cipher)):
+                if ((rail[i][j] == '*') and
+                (index < len(cipher))):
+                    rail[i][j] = cipher[index]
+                    index += 1
+            
+        result = []
+        row, col = 0, 0
+        for i in range(len(cipher)):
+            
+            if row == 0:
+                dir_down = True
+            if row == key-1:
+                dir_down = False
+                
+            if (rail[row][col] != '*'):
+                result.append(rail[row][col])
+                col += 1
+                
+            if dir_down:
+                row += 1
+            else:
+                row -= 1
+        return("".join(result))
+    
+    def encrypt1(*args, **kwargs):
+        message = Element('test-input1').element.value
+        key = int(Element('test-input2').element.value)
+        Element('test-output1').element.innerText = "Encrypted Text: " + encryptRailFence(message, key) #+ "\n" +
+    
+    def decrypt1(*args, **kwargs):
+        message = Element('test-input1').element.value
+        key = int(Element('test-input2').element.value)
+        Element('test-output2').element.innerText = "Decrypted Text: " + decryptRailFence(message, key)
+            
+</py-script>
+ 
+</body>
+</html>

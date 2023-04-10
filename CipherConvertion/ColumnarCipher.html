@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <title>ColumnarCipher</title>
+    <link rel="stylesheet" href="../style/style.css">
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+</head>
+ 
+<body>
+	<h1>ColumnarCipher</h1>
+	<form>
+		<input type="text" id="test-input1" placeholder="Message"/><br>
+		<button id="submit-button1" type="button" pys-onClick="encrypt1">Encrypt</button><br>
+		<textarea id="test-output1"></textarea><br>
+		<button id="submit-button2" type="button" pys-onClick="decrypt1">Decrypt</button><br>
+		<textarea id="test-output2"></textarea>
+		<p>Instructions:<br>
+			1.Choose a message to encrypt. Write down the message you want to encrypt on a piece of paper or in a notebook.<br>
+			2.Choose a keyword or key phrase. This keyword will be used to determine the order in which the columns of the cipher will be arranged.<br>
+			 For example, if your keyword is "SECRET", you will have six columns for your cipher (one for each letter in the keyword).<br>
+			3.Write the keyword above the message you want to encrypt. Each letter of the keyword should be written above a separate column.<br>
+			4.Write the remaining letters of the alphabet in order below the keyword. These letters will be used to fill in any spaces in the columns that are not used by the keyword.<br>			
+			5.Write the message you want to encrypt in rows below the keyword and the alphabet letters. Each letter of the message should be placed in a separate box below the appropriate column.</p>
+	</form>
+ 
+<py-script>
+
+    # Python3 implementation of
+# Columnar Transposition
+import math
+
+key = "HACK"
+
+# Encryption
+def encryptMessage(msg):
+	cipher = ""
+
+	# track key indices
+	k_indx = 0
+
+	msg_len = float(len(msg))
+	msg_lst = list(msg)
+	key_lst = sorted(list(key))
+
+	col = len(key)
+	
+	row = int(math.ceil(msg_len / col))
+
+	fill_null = int((row * col) - msg_len)
+	msg_lst.extend('_' * fill_null)
+
+	matrix = [msg_lst[i: i + col]
+			for i in range(0, len(msg_lst), col)]
+
+	for _ in range(col):
+		curr_idx = key.index(key_lst[k_indx])
+		cipher += ''.join([row[curr_idx]
+						for row in matrix])
+		k_indx += 1
+
+	return cipher
+
+# Decryption
+def decryptMessage(cipher):
+	msg = ""
+
+	k_indx = 0
+
+	msg_indx = 0
+	msg_len = float(len(cipher))
+	msg_lst = list(cipher)
+
+	col = len(key)
+	
+	row = int(math.ceil(msg_len / col))
+
+	key_lst = sorted(list(key))
+
+	dec_cipher = []
+	for _ in range(row):
+		dec_cipher += [[None] * col]
+
+	for _ in range(col):
+		curr_idx = key.index(key_lst[k_indx])
+
+		for j in range(row):
+			dec_cipher[j][curr_idx] = msg_lst[msg_indx]
+			msg_indx += 1
+		k_indx += 1
+
+	try:
+		msg = ''.join(sum(dec_cipher, []))
+	except TypeError:
+		raise TypeError("This program cannot",
+						"handle repeating words.")
+
+	null_count = msg.count('_')
+
+	if null_count > 0:
+		return msg[: -null_count]
+
+	return msg
+
+def encrypt1(*args, **kwargs):
+    msg = Element('test-input1').element.value #"Geeks for Geeks"
+
+    cipher = encryptMessage(msg)
+
+    print("Encrypted Message: {}".
+			    format(cipher))
+
+    print("Decryped Message: {}".
+	    format(decryptMessage(cipher)))
+
+    Element('test-output1').element.innerText = "Encrypted Message: " + format(cipher)
+	
+def decrypt1(*args, **kwargs):
+    msg = Element('test-input1').element.value #"Geeks for Geeks"
+
+    cipher = encryptMessage(msg)
+
+    print("Encrypted Message: {}".
+			    format(cipher))
+
+    print("Decryped Message: {}".
+	    format(decryptMessage(cipher)))
+
+    Element('test-output2').element.innerText = "Decrypted Message: " + format(decryptMessage(cipher))
+
+</py-script>
+ 
+</body>
+</html>

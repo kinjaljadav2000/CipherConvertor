@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <title>Book Cipher</title>
+    <link rel="stylesheet" href="../style/style.css">
+    <!-- <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css"> -->
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+</head>
+ 
+<body>
+    <h1>Book Cipher</h1>
+    <form>
+        <label for="text">Enter text to encode/decode:</label><br>
+        <input type="text" id="test-input1" placeholder="Message"/><br>
+        <button id="submit-button1" type="button" pys-onClick="encrypt1">Encrypt</button><br>
+        <textarea id="test-output1"></textarea><br>
+        <button id="submit-button2" type="button" pys-onClick="decrypt1">decrypt</button><br>
+        <textarea id="test-output2"></textarea>
+        <p>Instructions:<br>1.Choose a book or text to use as your key.<br> 
+            2.It should be a relatively long text, such as a novel or a history book.
+             Make sure you have a copy of the book that you can mark up or use for reference.<br>
+          NOTE:I have already defined the key.</p>
+    </form>
+    
+<py-script>
+ 
+import string
+
+book = """
+It was a bright cold day in April, and the clocks were striking thirteen. Winston Smith, his chin nuzzled into his breast in an effort to escape the vile wind, slipped quickly through the glass doors of Victory Mansions, though not quickly enough to prevent a swirl of gritty dust from entering along with him.
+"""
+
+encoding_table = {}
+for i, c in enumerate(string.ascii_lowercase):
+    encoding_table[c] = str(i).zfill(2)
+
+decoding_table = {}
+for i, c in enumerate(string.ascii_lowercase):
+    decoding_table[str(i).zfill(2)] = c
+
+def encode(message):
+    encoded = ""
+    for c in message.lower():
+        if c in encoding_table:
+            encoded += encoding_table[c]
+    return encoded
+
+def decode(message):
+    decoded = ""
+    for i in range(0, len(message), 2):
+        if message[i:i+2] in decoding_table:
+            decoded += decoding_table[message[i:i+2]]
+    return decoded
+
+def encrypt1(*args, **kwargs):
+    message = Element('test-input1').element.value #"the clocks were striking thirteen"
+    encoded = encode(message)
+    print("Encoded:", encoded)
+    decoded = decode(encoded)
+    print("Decoded:", decoded)
+    Element('test-output1').element.innerText = "Encoded: " + encode(message)
+
+def decrypt1(*args, **kwargs):
+    message = Element('test-input1').element.value #"the clocks were striking thirteen"
+    encoded = encode(message)
+    print("Encoded:", encoded)
+    decoded = decode(encoded)
+    print("Decoded:", decoded)
+    Element('test-output2').element.innerText = "Decoded: " + decode(encoded)
+
+
+</py-script>
+ 
+</body>
+</html>

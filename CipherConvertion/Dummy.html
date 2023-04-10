@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <title>Caesar Cipher</title>
+    <link rel="stylesheet" href="../style/style.css">
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+</head>
+ 
+<body>
+    <h1>Caesar Cipher</h1>
+    <form>
+        <input type="text" id="test-input1" placeholder="Enter Plaintext"/><br>
+        <input type="text" id="test-input2" placeholder="Key Value"/><br>
+        <button id="submit-button1" type="button" pys-onClick="my_function1">Encrypt</button><br><br>
+        <button id="submit-button2" type="button" pys-onClick="my_function2">Decrpyt</button><br>
+        <!-- <div id="test-output"></div> -->
+        <textarea id="output-textarea1" placeholder="Encrypted Text"></textarea><br>
+        <textarea id="output-textarea2" placeholder="Decrypted Text"></textarea><br>
+        <p>Instructions:<br>
+           1) Choose a key value: The key value represents the number of positions.
+           <br>2) Write your plaintext: The plaintext is the original message that you want to encrypt.
+            </p>
+    </form>
+    <script src="../script.js"></script>
+<py-script>
+ 
+def encrypt(text,s):
+    result = ""
+    
+    # traverse text
+    for i in range(len(text)):
+        char = text[i]
+    
+        # Encrypt uppercase characters
+        if (char.isupper()):
+            result += chr((ord(char) + s-65) % 26 + 65)
+    
+        # Encrypt lowercase characters
+        else:
+            result += chr((ord(char) + s - 97) % 26 + 97)
+    
+    return result
+
+def decrypt(text,s):
+    result = ""
+    
+    # traverse text
+    for i in range(len(text)):
+        char = text[i]
+    
+        # Encrypt uppercase characters
+        if (char.isupper()):
+            result += chr((ord(char) - s - 65) % 26 + 65)
+    
+        # Encrypt lowercase characters
+        else:
+            result += chr((ord(char) - s - 97) % 26 + 97)
+    
+    return result
+    
+def my_function1(*args, **kwargs):
+    text = Element('test-input1').element.value
+    s = int(Element('test-input2').element.value)
+    encrypted_text = encrypt(text,s)
+    <!-- Element('test-output').element.innerText = "Encrypted Text: " + encrypted_text -->
+    Element('output-textarea1').element.value = encrypted_text
+
+def my_function2(*args, **kwargs):
+    text = Element('test-input1').element.value
+    s = int(Element('test-input2').element.value)
+    encrypted_text = decrypt(text,s)
+    <!-- Element('test-output').element.innerText = "Encrypted Text: " + encrypted_text -->
+    Element('output-textarea2').element.value = encrypted_text
+
+</py-script>
+ 
+</body>
+</html>

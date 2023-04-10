@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <title>Vigenere Cipher</title>
+    <link rel="stylesheet" href="../style/style.css">
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+</head>
+ 
+<body>
+    <h1>Vigenere Cipher</h1>
+    <form>
+        <input type="text" id="test-input1" placeholder="String"/><br>
+        <input type="text" id="test-input2" placeholder="KeyWord"/><br>
+        <button id="submit-button1" type="button" pys-onClick="encrypt1">Encrypt</button><br><br>
+        <textarea id="test-output1"></textarea><br>
+        <button id="submit-button2" type="button" pys-onClick="decrypt1">Decrypt</button><br>
+        <textarea id="test-output2"></textarea>
+        <p>Instructions:<br>
+        1.Enter the string in the first box given.<br>
+        2.Enter the keyword.</p>
+    </form>
+ 
+<py-script>
+ 
+    def generateKey(string, key):
+        key = list(key)
+        if len(string) == len(key):
+            return(key)
+        else:
+            for i in range(len(string) -
+                        len(key)):
+                key.append(key[i % len(key)])
+        return("" . join(key))
+        
+    def cipherText(string, key):
+        cipher_text = []
+        for i in range(len(string)):
+            x = (ord(string[i]) +
+                ord(key[i])) % 26
+            x += ord('A')
+            cipher_text.append(chr(x))
+        return("" . join(cipher_text))
+        
+    def originalText(cipher_text, key):
+        orig_text = []
+        for i in range(len(cipher_text)):
+            x = (ord(cipher_text[i]) -
+                ord(key[i]) + 26) % 26
+            x += ord('A')
+            orig_text.append(chr(x))
+        return("" . join(orig_text))
+        
+    def encrypt1(*args, **kwargs):
+        string = Element('test-input1').element.value #"GEEKSFORGEEKS"
+        keyword = Element('test-input2').element.value #"AYUSH"
+        key = generateKey(string, keyword)
+        cipher_text = cipherText(string,key)
+        Element('test-output1').element.innerText = "Ciphertext: " + cipher_text #+ " \n" + 
+        print("Ciphertext :", cipher_text)
+        print("Original/Decrypted Text :",
+            originalText(cipher_text, key))
+
+    def decrypt1(*args, **kwargs):
+        string = Element('test-input1').element.value #"GEEKSFORGEEKS"
+        keyword = Element('test-input2').element.value #"AYUSH"
+        key = generateKey(string, keyword)
+        plaintext = originalText(string,key)
+        Element('test-output2').element.innerText = "Original/Decrypted Text: " + plaintext
+        print("Ciphertext :", cipher_text)
+        print("Original/Decrypted Text :",
+            originalText(cipher_text, key))
+    
+</py-script>
+ 
+</body>
+</html>

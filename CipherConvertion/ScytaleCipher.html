@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <title>Scytale Cipher</title>
+    <link rel="stylesheet" href="../style/style.css">
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+</head>
+ 
+<body>
+    <h1>Scytale Cipher</h1>
+    <form>
+        <input type="text" id="test-input1" placeholder="Message"/><br>
+        <input type="text" id="test-input2" placeholder="Key"/><br>
+        <button id="submit-button1" type="button" pys-onClick="encrypt1">Encrypt</button><br><br>
+        <textarea id="test-output1"></textarea><br>
+        <button id="submit-button2" type="button" pys-onClick="decrypt1">Decrypt</button><br>
+        <textarea id="test-output2"></textarea>
+        <p>Instructions:<br>
+            1.Enter your plaintext.<br>
+            2.Enter your key.<br>
+            </p>
+    </form>
+ 
+<py-script>
+ 
+def scytale_encrypt(message, key):
+    num_rows = (len(message) + key - 1) // key
+    rows = [''] * num_rows
+    for i in range(len(message)):
+        rows[i % num_rows] += message[i]
+    return ''.join(rows)
+
+def scytale_decrypt(message, key):
+    num_rows = (len(message) + key - 1) // key
+    num_cols = (len(message) + num_rows - 1) // num_rows
+    cols = [''] * num_cols
+    index = 0
+    for i in range(num_rows):
+        for j in range(num_cols):
+            if index < len(message):
+                cols[j] += message[index]
+                index += 1
+    return ''.join(cols)
+
+def encrypt1(*args, **kwargs): 
+    message = Element('test-input1').element.value #"the quick brown fox jumps over the lazy dog"
+    key = int(Element('test-input2').element.value) #5
+    encrypted = scytale_encrypt(message, key)
+    decrypted = scytale_decrypt(encrypted, key)
+    print("Message:", message)
+    print("Encrypted:", encrypted)
+    print("Decrypted:", decrypted)
+    Element('test-output1').element.innerText = "Encrypted: " + encrypted #+ "\n" + 
+
+def decrypt1(*args, **kwargs): 
+    message = Element('test-input1').element.value #"the quick brown fox jumps over the lazy dog"
+    key = int(Element('test-input2').element.value) #5
+    encrypted = scytale_encrypt(message, key)
+    decrypted = scytale_decrypt(message, key)
+    print("Message:", message)
+    print("Encrypted:", encrypted)
+    print("Decrypted:", decrypted)
+    Element('test-output2').element.innerText = "Decrypted: " + decrypted
+
+</py-script>
+ 
+</body>
+</html>

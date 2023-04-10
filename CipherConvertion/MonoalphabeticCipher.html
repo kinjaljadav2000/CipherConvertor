@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MonoalphabeticCipher</title>
+    <link rel="stylesheet" href="../style/style.css">
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+</head>
+<body>
+	<h1>MonoalphabeticCipher</h1>
+	<form>
+		<input type="text" id="test-input1" placeholder="Message"/><br>
+		<button id="submit-button1" type="button" pys-onClick="encrypt1">Encrypt</button><br><br>
+		<textarea id="test-output1"></textarea>
+		<textarea id="test-output2"></textarea>
+		<p>Instructions:<br>
+		1.Create a key: To create a monoalphabetic cipher, you need to create a key that maps each plaintext letter to a unique ciphertext letter. 
+		You can create the key manually or use a tool to generate it.
+		 One way to create a key manually is to write down the alphabet in order, and then assign a unique letter to each
+		  letter of the alphabet in a random order.<br>
+		NOTE:key is pre-defined.<br>
+		2.Encrypt a message: To encrypt a message using a monoalphabetic cipher, you simply replace each plaintext letter with its corresponding ciphertext letter according to the key.<br>
+		3.Decrypt a message: To decrypt a message that has been encrypted using a monoalphabetic cipher, you need to know the key. Simply reverse the mapping of the key to decrypt the ciphertext message back into the original plaintext message. </p>
+	</form>
+ 
+<py-script>
+
+def printString(S, N):
+	
+	plaintext = [None] * 5
+	
+	freq = [0] * 26
+	
+	freqSorted = [None] * 26
+	
+	used = [0] * 26
+	
+	for i in range(N):
+		if S[i] != ' ':
+			freq[ord(S[i]) - 65] += 1
+			
+	for i in range(26):
+		freqSorted[i] = freq[i]
+		
+	T = "ETAOINSHRDLCUMWFGYPBVKJXQZ"
+	
+	freqSorted.sort(reverse = True)
+	
+	for i in range(5):
+		ch = -1
+		
+		for j in range(26):
+			if freqSorted[i] == freq[j] and used[j] == 0:
+				used[j] = 1
+				ch = j
+				break
+			
+		if ch == -1:
+			break
+		
+		x = ord(T[i]) - 65
+		
+		x = x - ch
+		
+		curr = ""
+		
+		for k in range(N):
+			
+			# Insert whitespaces as it is
+			if S[k] == ' ':
+				curr += " "
+				continue
+			
+			# Shift the kth letter of the
+			# cipher by x
+			y = ord(S[k]) - 65
+			y += x
+			
+			if y < 0:
+				y += 26
+			if y > 25:
+				y -= 26
+			
+			# Add the kth calculated/shifted
+			# letter to temporary string	
+			curr += chr(y + 65)
+			
+		plaintext[i] = curr
+	
+	for i in range(5):
+		Element('test-output1').element.innerText = "Cipher text: " + plaintext[i] #+ "\n" + 
+		Element('test-output2').element.innerText = "Plaintext: " + S
+
+def encrypt1(*args, **kwargs):
+    S = Element('test-input1').element.value #"B TJNQMF NFTTBHF"
+    N = len(S)
+
+
+    Element('test-output').element.innerText = "Message: \n" + printString(S, N)
+
+def decrypt1(*args, **kwargs):
+    S = Element('test-input1').element.value #"B TJNQMF NFTTBHF"
+    N = len(S)
+
+
+    Element('test-output2').element.innerText = "Message: \n" + printString(S, N)
+
+</py-script>
+ 
+</body>
+</html>

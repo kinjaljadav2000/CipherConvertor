@@ -1,0 +1,124 @@
+body {
+	background-color: #040303;
+	font-family: Arial, sans-serif;
+}
+
+h1 {
+	text-align: center;
+  font-family: Arial, sans-serif;
+  color:  #99c5df;
+  text-shadow: 4px 2px 4px #000000;
+  background-image: linear-gradient(to right, #3c3728, #89c0eb);
+}
+
+form {
+	max-width: 600px;
+	margin: auto;
+	background-color: rgb(37, 115, 134);
+	padding: 20px;
+	border-radius: 20px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+label {
+	font-weight: bold;
+}
+
+textarea, input[type=number] {
+  font-family: Arial, Helvetica, sans-serif;
+	width: 70%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	box-sizing: border-box;
+	border: 2px solid #ccc;
+	border-radius: 10px;
+	resize: none;
+}
+
+input[type=submit] {
+	background-color: #42a145;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+  
+}
+
+input[type=submit]:hover {
+	background-color: #45a049;
+}
+
+#test-input1 {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 80%;
+    max-width: 400px;
+    margin-bottom: 20px;
+  }
+
+  #test-input2 {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 80%;
+    max-width: 400px;
+    margin-bottom: 20px;
+  }
+
+  #test-input3 {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 80%;
+    max-width: 400px;
+    margin-bottom: 20px;
+  }
+  
+  #submit-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #submit-button:hover {
+    background-color: #3e8e41;
+  }
+
+  input[type=submit]:hover {
+	background-color: #45a049;
+}
+button {
+  padding: 17px 40px;
+  border-radius: 50px;
+  border: 0;
+  background-color: white;
+  box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 15px;
+  transition: all .5s ease;
+ }
+ 
+ button:hover {
+  letter-spacing: 3px;
+  background-color: hsl(261deg 80% 48%);
+  color: hsl(0, 0%, 100%);
+  box-shadow: rgb(93 24 220) 0px 7px 29px 0px;
+ }
+ 
+ button:active {
+  letter-spacing: 3px;
+  background-color: hsl(261deg 80% 48%);
+  color: hsl(0, 0%, 100%);
+  box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
+  transform: translateY(10px);
+  transition: 100ms;
+ }
